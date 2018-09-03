@@ -1,6 +1,6 @@
-"""Shim between dh_virtualenv and pipenv
+"""Shim between dh_virtualenv and poetry
 
-When -r is used for pip to install dependencies use pipenv instead and remove
+When -r is used for pip to install dependencies use poetry instead and remove
 incompatible arguments.
 """
 import os
@@ -29,8 +29,8 @@ def _remove_kwarg(args, kwarg):
     return args
 
 
-def convert_pip_args_to_pipenv_args(pip_args):
-    """Remove non pipenv compatible args from arg list meant for pip_args.
+def convert_pip_args_to_poetry_args(pip_args):
+    """Remove non poetry compatible args from arg list meant for pip_args.
     """
     # Remove -r requirements.txt
     try:
@@ -48,19 +48,19 @@ def convert_pip_args_to_pipenv_args(pip_args):
         pip_args = _remove_kwarg(pip_args, kwarg)
     # Add additional args
     # Can't be specified by --extra-pip-arg in debian/rules because used by pip
-    # when installing preinstall packages ie) pipenv
+    # when installing preinstall packages ie) poetry
     return pip_args + ['--system', '--deploy']
 
 
 def main():
-    dh_pipenv = sys.argv[0]
-    # Get path of dh_pipenv pipenv
-    assert os.path.isfile(dh_pipenv), "We should have a full path to dh_pipenv"
-    bin_dir = os.path.dirname(dh_pipenv)
+    dh_poetry = sys.argv[0]
+    # Get path of dh_poetry poetry
+    assert os.path.isfile(dh_poetry), "We should have a full path to dh_poetry"
+    bin_dir = os.path.dirname(dh_poetry)
     pip_path = os.path.join(bin_dir, 'pip')
-    pipenv_path = os.path.join(bin_dir, 'pipenv')
+    poetry_path = os.path.join(bin_dir, 'poetry')
     assert os.path.isfile(pip_path), "Can't find pip: %s" % pip_path
-    assert os.path.isfile(pipenv_path), "Can't find pipenv: %s" % pipenv_path
+    assert os.path.isfile(poetry_path), "Can't find poetry: %s" % poetry_path
     # Setup environment variables
     environment = os.environ.copy()
     # Fallback to pip if requirements.txt not specified
@@ -68,13 +68,13 @@ def main():
     if '-r' not in pip_args:
         cmd_args = [pip_path] + pip_args
     else:
-        # Ensure Pipfile.lock exists
-        pipfile_exists = os.path.isfile(os.path.join(os.getcwd(), 'Pipfile.lock'))
-        assert pipfile_exists, "Pipfile.lock doesn't exist"
+        # Ensure pyproject.lock exists
+        lockfile_exists = os.path.isfile(os.path.join(os.getcwd(), 'pyproject.lock'))
+        assert lockfile_exists, "pyproject.lock doesn't exist"
         # Get args
-        pipenv_args = convert_pip_args_to_pipenv_args(sys.argv[1:])
-        cmd_args = [pipenv_path] + pipenv_args
-        # Set VIRTUAL_ENV only for `pipenv`, to make sure it installs files in
+        poetry_args = convert_pip_args_to_poetry_args(sys.argv[1:])
+        cmd_args = [poetry_path] + poetry_args
+        # Set VIRTUAL_ENV only for `poetry`, to make sure it installs files in
         # the right location.
         venv_dir = os.path.dirname(bin_dir)
         environment['VIRTUAL_ENV'] = environment.get('VIRTUAL_ENV', venv_dir)

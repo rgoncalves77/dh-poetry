@@ -1,15 +1,15 @@
 from setuptools import setup
 
-setup(name='dh-pipenv',
+setup(name='dh-poetry',
       version='0.1.1',
-      description='Shim between dh-virtualenv and pipenv',
-      url='http://github.com/michael-christen/dh-pipenv',
+      description='Shim between dh-virtualenv and poetry',
+      url='http://github.com/michael-christen/dh-poetry',
       author='Michael Christen',
       author_email='mchristen96@gmail.com',
       license='MIT',
       zip_safe=False,
-      packages=['dh_pipenv'],
+      packages=['dh_poetry'],
       entry_points={
-          'console_scripts': ['dh-pipenv=dh_pipenv.command_line:main'],
+          'console_scripts': ['dh-poetry=dh_poetry.command_line:main'],
       },
 )
