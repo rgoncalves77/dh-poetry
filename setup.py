@@ -1,11 +1,11 @@
 from setuptools import setup
 
 setup(name='dh-poetry',
-      version='0.1.1',
+      version='0.1.0',
       description='Shim between dh-virtualenv and poetry',
-      url='http://github.com/michael-christen/dh-poetry',
-      author='Michael Christen',
-      author_email='mchristen96@gmail.com',
+      url='http://github.com/maikelwever/dh-poetry',
+      author='Maikel Wever',
+      author_email='maikelwever@gmail.com',
       license='MIT',
       zip_safe=False,
       packages=['dh_poetry'],
