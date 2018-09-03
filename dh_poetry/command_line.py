@@ -58,6 +58,9 @@ def main():
     assert os.path.isfile(dh_poetry), "We should have a full path to dh_poetry"
     bin_dir = os.path.dirname(dh_poetry)
     pip_path = os.path.join(bin_dir, 'pip')
+    if not os.path.isfile(pip_path):
+        pip_path = os.path.join(bin_dir, 'pip3')
+
     poetry_path = os.path.join(bin_dir, 'poetry')
     assert os.path.isfile(pip_path), "Can't find pip: %s" % pip_path
     assert os.path.isfile(poetry_path), "Can't find poetry: %s" % poetry_path

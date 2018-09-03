@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='dh-poetry',
-      version='0.1.1',
+      version='0.1.2',
       description='Shim between dh-virtualenv and poetry',
       url='http://github.com/maikelwever/dh-poetry',
       author='Maikel Wever',
