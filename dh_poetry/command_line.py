@@ -71,9 +71,12 @@ def main():
     if '-r' not in pip_args:
         cmd_args = [pip_path] + pip_args
     else:
-        # Ensure pyproject.lock exists
-        lockfile_exists = os.path.isfile(os.path.join(os.getcwd(), 'pyproject.lock'))
-        assert lockfile_exists, "pyproject.lock doesn't exist"
+        # Ensure pyproject.lock or poetry.lock exists
+        lockfile_exists = any(
+            os.path.isfile(os.path.join(os.getcwd(), filename))
+            for filename in ('poetry.lock', 'pyproject.lock')
+        )
+        assert lockfile_exists, "poetry.lock doesn't exist"
         # Get args
         poetry_args = convert_pip_args_to_poetry_args(sys.argv[1:])
         cmd_args = [poetry_path] + poetry_args
