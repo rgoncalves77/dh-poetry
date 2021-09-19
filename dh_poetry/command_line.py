@@ -49,7 +49,7 @@ def convert_pip_args_to_poetry_args(pip_args):
     # Add additional args
     # Can't be specified by --extra-pip-arg in debian/rules because used by pip
     # when installing preinstall packages ie) poetry
-    return pip_args
+    return pip_args + ["--no-dev"]
 
 
 def main():
